@@ -1,0 +1,12 @@
+// Styling for the contact
+section#contact {
+  .contact-box {
+    margin: auto;
+    @media(min-width:768px) {
+      padding-left: 12.5%;
+    }
+    a {
+      color: $black;
+    }
+  }
+}

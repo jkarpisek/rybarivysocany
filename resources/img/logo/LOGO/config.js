@@ -1,0 +1,1 @@
+IDRViewer.config = {"pagecount":1,"title":"","author":"","fileName":"LOGO.pdf","bounds":[[1286,1818]],"bookmarks":[],"thumbnailType":"jpg","pageType":"svg","pageLabels":[]};

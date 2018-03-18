@@ -1,0 +1,14 @@
+// Styling for the news
+section#news {
+  padding-top: 25px;
+  & > .container > .row {
+    padding: 12.5px;
+    &.article-delimiter {
+      hr {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      padding-top: 0;
+    }
+  }
+}

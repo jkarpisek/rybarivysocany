@@ -1,0 +1,105 @@
+// Styling for the navbar
+body.without-masthead {
+  #mainNav {
+    background-color: $limegreen;
+  }
+}
+#mainNav {
+  background-color: transparent;
+  color: $white;
+  .navbar-toggler {
+    font-size: 30px;
+    right: 0;
+    border: 0;
+    color: $white;
+    outline: none;
+  }
+  .navbar-brand {
+    @include kalam-font;
+    color: $white;
+  }
+  &.navbar-shrink {
+    background-color: $limegreen;
+  }
+  .navbar-nav {
+    .nav-item {
+      .nav-link {
+        font-size: 1em;
+        -webkit-transition: all 0.3s;
+        -moz-transition: all 0.3s;
+        transition: all 0.3s;
+        font-weight: 400;
+        padding: 0.75em 0;
+        letter-spacing: 1px;
+        color: $white;
+        white-space: nowrap;
+        @include heading-font;
+        &.active,
+        &:hover {
+          color: inherit;
+        }
+      }
+    }
+  }
+  .logo {
+    margin-right: 20px;
+    width: 50px;
+  }
+}
+@media(min-width:768px) {
+  #mainNav {
+    padding-top: 25px;
+    padding-bottom: 25px;
+    -webkit-transition: padding-top 0.3s, padding-bottom 0.3s;
+    -moz-transition: padding-top 0.3s, padding-bottom 0.3s;
+    transition: padding-top 0.3s, padding-bottom 0.3s;
+    border: none;
+    font-weight: 900;
+    .navbar-brand {
+      font-size: 1.5em;
+      -webkit-transition: all 0.3s;
+      -moz-transition: all 0.3s;
+      transition: all 0.3s;
+    }
+    .navbar-nav {
+      .nav-item {
+        .nav-link {
+          padding: 1.1em 1em !important;
+          color: $white;
+          font-weight: 900;
+          border-bottom: 2px solid transparent;
+          &.active,
+          &:hover {
+            border-bottom-color: $white;
+          }
+        }
+      }
+    }
+    &.navbar-shrink {
+      padding-top: 0;
+      padding-bottom: 0;
+      background-color: $limegreen;
+      color: $white;
+      font-weight: normal;
+      .navbar-brand {
+        font-size: 1.25em;
+        padding: 12px 0;
+      }
+      .navbar-nav {
+        .nav-item {
+          .nav-link {
+            color: $white;
+            font-size: .9em;
+            -webkit-transition: all 0.3s;
+            -moz-transition: all 0.3s;
+            transition: all 0.3s;
+            &.active,
+            &:hover {
+              border-bottom-color: $white;
+            }
+          }
+        }
+      }
+    }
+  }
+}
