@@ -10,6 +10,7 @@ var include = require("gulp-include");
 var exec = require('child_process').exec;
 var clean = require('gulp-clean');
 var wait = require('gulp-wait');
+var fs = require("fs");
 
 gulp.task('clean', function() {
     return gulp.src('generated').pipe(clean());
@@ -78,14 +79,9 @@ gulp.task('html', function() {
                 if (fileInfo.replacePipe) {
                     fileInfo.replacePipe(pipe);
                 }
-                pipe.pipe(include())
-                    .pipe(replace('body-masthead-class', isIndex ? 'with-masthead' : 'without-masthead'))
-                    .pipe(replace(/nav-link-([_a-z\\-]+)/g, function (match, p1) {
+                commonReplaceAndInclude(pipe, isIndex).pipe(replace(/nav-link-([_a-z\\-]+)/g, function (match, p1) {
                         return (p1 === fileInfo.navlink ? 'active' : '') + '" href="' + info[p1].target;
                     }))
-                    .pipe(replace('facebookURL', 'https://www.facebook.com/rybariVysocany/'))
-                    .pipe(replace('emailAddress', 'info@rybarivysocany.cz'))
-                    .pipe(replace('phoneNumber', '603 413 665'))
                     .pipe(gulp.dest('generated'));
 
             });
@@ -93,6 +89,14 @@ gulp.task('html', function() {
 
     browserSync.reload({ stream: true });
 });
+
+function commonReplaceAndInclude(pipe, isIndex) {
+    return pipe.pipe(include())
+        .pipe(replace('body-masthead-class', isIndex ? 'with-masthead' : 'without-masthead'))
+        .pipe(replace('facebookURL', 'https://www.facebook.com/rybariVysocany/'))
+        .pipe(replace('emailAddress', 'info@rybarivysocany.cz'))
+        .pipe(replace('phoneNumber', '603 413 665'))
+}
 
 function newsReplacePipe(pipe) {
     var dirName = "news";
@@ -120,7 +124,15 @@ function archiveReplacePipe(pipe) {
     if (files != null) {
         pipe.pipe(replace('<!-- list -->', function () {
             return files.map(function (w) {
-                return '<!--=include ' + dirName + '/' + w + '-->\n<!--=include article-delimiter.html-->';
+                var fileContent = fs.readFileSync('templates/' + dirName + '/' + w, "utf8");
+                var title = /<h3[^>]*>(.+)<\/h3>/g.exec(fileContent)[1];
+                var dateParse = /([0-9]{4})([0-9]{2})([0-9]{2})-([0-9]{2})([0-9]{2})/g.exec(w);
+                var date = '' + dateParse[3] + '.' + dateParse[2] + '.' + dateParse[1] + ' ' + dateParse[4] + ':' + dateParse[5];
+                var url = 'archiv-' + w;
+                var pipe = gulp.src('templates/archive-article.html').pipe(concat(url))
+                    .pipe(replace('<!-- article -->', '<!--=include ' + dirName + '/' + w + '-->'));
+                commonReplaceAndInclude(pipe, false).pipe(gulp.dest('generated'));
+                return '<li><a href="' + url + '">' + title + ' (' + date + ')' + '</a>';
             }).join('\n');
         }));
     }

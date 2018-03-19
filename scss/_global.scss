@@ -134,3 +134,12 @@ p.image-right {
     margin: 5px 5px 5px 20px
   }
 }
+
+#archive {
+  ul {
+    list-style: none;
+    & > li {
+      margin-bottom: 10px;
+    }
+  }
+}
