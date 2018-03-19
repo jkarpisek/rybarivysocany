@@ -98,9 +98,7 @@ function newsReplacePipe(pipe) {
     var dirName = "news";
     var files = templates[dirName];
     pipe.pipe(replace('<!-- list -->', function() {
-        return files.sort(function (a, b) {
-            return a < b ? 1 : -1;
-        }).slice(0, 10).map(function(w) {
+        return files.slice(0, 10).map(function(w) {
             return '<!--=include ' + dirName + '/' + w + '-->\n<!--=include article-delimiter.html-->';
         }).join('\n');
     }));
@@ -110,9 +108,7 @@ function olderNewsReplacePipe(pipe) {
     var dirName = "news";
     var files = templates[dirName];
     pipe.pipe(replace('<!-- list -->', function() {
-        return files.sort(function (a, b) {
-            return a < b ? 1 : -1;
-        }).slice(10).map(function(w) {
+        return files.slice(10).map(function(w) {
             return '<!--=include ' + dirName + '/' + w + '-->\n<!--=include article-delimiter.html-->';
         }).join('\n');
     }));
@@ -141,6 +137,11 @@ function lsToMap(data) {
             map[file[0]] = dir;
         }
         dir.push(file[1]);
+    }
+    for (var dirName in map) {
+        map[dirName] = map[dirName].sort(function (a, b) {
+            return a < b ? 1 : -1;
+        });
     }
     return map;
 }
