@@ -57,15 +57,15 @@ var templates;
 
 gulp.task('html', function() {
     var info = {
-        'news': { source: 'templates/_news.html', navlink: 'news', target: 'index.html', replacePipe: newsReplacePipe },
-        'older-news': { source: 'templates/_older-news.html', navlink: 'older-news', target: 'starsi-novinky.html', replacePipe: olderNewsReplacePipe },
-        'archive': { source: 'templates/_archive.html', navlink: 'archive', target: 'archiv.html', replacePipe: archiveReplacePipe },
-        'operational-information': { source: 'templates/_operational-information.html', navlink: 'operational-information', target: 'provozni-informace.html' },
-        'children': { source: 'templates/_children.html', navlink: 'children', target: 'deti.html' },
-        'representation': { source: 'templates/_representation.html', navlink: 'representation', target: 'reprezentace.html' },
-        'actions': { source: 'templates/_actions.html', navlink: 'actions', target: 'akce.html' },
-        'by-the-water': { source: 'templates/_by-the-water.html', navlink: 'by-the-water', target: 'u-vody.html' },
-        'contact': { source: 'templates/_contact.html', navlink: 'contact', target: 'kontakt.html' }
+        'news': { source: 'templates/news.html', navlink: 'news', target: 'index.html', replacePipe: newsReplacePipe },
+        'older-news': { source: 'templates/older-news.html', navlink: 'older-news', target: 'starsi-novinky.html', replacePipe: olderNewsReplacePipe },
+        'archive': { source: 'templates/archive.html', navlink: 'archive', target: 'archiv.html', replacePipe: archiveReplacePipe },
+        'operational-information': { source: 'templates/operational-information.html', navlink: 'operational-information', target: 'provozni-informace.html' },
+        'children': { source: 'templates/children.html', navlink: 'children', target: 'deti.html' },
+        'representation': { source: 'templates/representation.html', navlink: 'representation', target: 'reprezentace.html' },
+        'actions': { source: 'templates/actions.html', navlink: 'actions', target: 'akce.html' },
+        'by-the-water': { source: 'templates/by-the-water.html', navlink: 'by-the-water', target: 'u-vody.html' },
+        'contact': { source: 'templates/contact.html', navlink: 'contact', target: 'kontakt.html' }
     };
 
     exec('cd templates/ && ls -1 */*').stdout.on('data', function(data) {
@@ -101,7 +101,7 @@ function newsReplacePipe(pipe) {
         return files.sort(function (a, b) {
             return a < b ? 1 : -1;
         }).slice(0, 10).map(function(w) {
-            return '<!--=include ' + dirName + '/' + w + '-->\n<!--=include _article-delimiter.html-->';
+            return '<!--=include ' + dirName + '/' + w + '-->\n<!--=include article-delimiter.html-->';
         }).join('\n');
     }));
 }
@@ -113,7 +113,7 @@ function olderNewsReplacePipe(pipe) {
         return files.sort(function (a, b) {
             return a < b ? 1 : -1;
         }).slice(10).map(function(w) {
-            return '<!--=include ' + dirName + '/' + w + '-->\n<!--=include _article-delimiter.html-->';
+            return '<!--=include ' + dirName + '/' + w + '-->\n<!--=include article-delimiter.html-->';
         }).join('\n');
     }));
 }
@@ -124,7 +124,7 @@ function archiveReplacePipe(pipe) {
     if (files != null) {
         pipe.pipe(replace('<!-- list -->', function () {
             return files.map(function (w) {
-                return '<!--=include ' + dirName + '/' + w + '-->\n<!--=include _article-delimiter.html-->';
+                return '<!--=include ' + dirName + '/' + w + '-->\n<!--=include article-delimiter.html-->';
             }).join('\n');
         }));
     }
