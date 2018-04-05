@@ -143,3 +143,19 @@ p.image-right {
     }
   }
 }
+
+@media(min-width:768px) {
+  ol, ul {
+    &.three-columns {
+      -webkit-column-count: 3;
+      -webkit-column-gap: 20px;
+      -moz-column-count: 3;
+      -moz-column-gap: 20px;
+      -o-column-count: 3;
+      -o-column-gap: 20px;
+      column-count: 3;
+      column-gap: 20px;
+      list-style-position: inside;
+    }
+  }
+}
