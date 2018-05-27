@@ -20,3 +20,78 @@
 @mixin heading-font {
   font-family: 'Montserrat', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
+
+@mixin width($width) {
+  min-width: $width;
+  width: $width;
+  max-width: $width;
+}
+
+@import "node_modules/bootstrap/scss/mixins/_float.scss"; // contains float-* mixins
+
+@mixin floated-image-width($side, $width) {
+  @include width(100%);
+  @media (max-width: 767px) and (orientation : landscape) {
+    @include width(50%);
+    @if $side == right {
+      padding-left: 20px;
+    } @else {
+      padding-right: 20px;
+    }
+  }
+  @media (min-width: 768px) {
+    @include width($width);
+    @if $side == right {
+      padding-left: 20px;
+    } @else {
+      padding-right: 20px;
+    }
+  }
+}
+
+@mixin floated-image($side:left) {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  @if $side == right {
+    @include float-right;
+  } @else {
+    @include float-left;
+  }
+  @include floated-image-width($side, 33%);
+  &.width-25 {
+    @include floated-image-width($side, 25%);
+  }
+  &.width-33 {
+    @include floated-image-width($side, 33%);
+  }
+  &.width-50 {
+    @include floated-image-width($side, 50%);
+  }
+  &.width-66 {
+    @include floated-image-width($side, 66%);
+  }
+  &.width-75 {
+    @include floated-image-width($side, 75%);
+  }
+  &.width-100 {
+    @include width(100%);
+  }
+  &.image-row {
+    padding-left: 10px;
+    padding-right: 10px;
+    &:first-child {
+      padding-left: 0;
+      padding-right: 10px;
+    }
+    &:last-child {
+      padding-left: 10px;
+      padding-right: 0;
+    }
+  }
+  & > img {
+    border-radius: 5px;
+    width: 100%;
+  }
+}
+
+

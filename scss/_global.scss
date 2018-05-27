@@ -115,24 +115,12 @@ a:focus {
   }
 }
 
-@import "node_modules/bootstrap/scss/mixins/_float.scss"; // contains float-* mixins
-
 p.image-left {
-  @include float-left;
-  & > img {
-    max-height: 200px;
-    border-radius: 5px;
-    margin: 5px 20px 5px 5px
-  }
+  @include floated-image(left);
 }
 
 p.image-right {
-  @include float-right;
-  & > img {
-    max-height: 200px;
-    border-radius: 5px;
-    margin: 5px 5px 5px 20px
-  }
+  @include floated-image(right);
 }
 
 #archive {
