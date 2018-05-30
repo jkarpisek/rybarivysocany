@@ -34,15 +34,16 @@
   "devDependencies": {
     "browser-sync": "2.18.13",
     "gulp": "^3.9.1",
+    "gulp-clean": "0.4.0",
     "gulp-clean-css": "3.9.0",
+    "gulp-concat": "2.6.1",
     "gulp-header": "1.8.9",
+    "gulp-image-resize": "^0.13.0",
+    "gulp-include": "2.3.1",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "0.6.1",
     "gulp-sass": "^3.1.0",
     "gulp-uglify": "3.0.0",
-    "gulp-concat": "2.6.1",
-    "gulp-replace": "0.6.1",
-    "gulp-include": "2.3.1",
-    "gulp-clean": "0.4.0",
     "gulp-wait": "0.0.2"
   }
 }

@@ -11,6 +11,7 @@ var exec = require('child_process').exec;
 var clean = require('gulp-clean');
 var wait = require('gulp-wait');
 var fs = require("fs");
+var imageResize = require('gulp-image-resize');
 
 gulp.task('clean', function() {
     return gulp.src('generated').pipe(clean());
@@ -53,6 +54,14 @@ gulp.task('minify-js', function() {
       stream: true
     }));
 });
+
+gulp.task('minify-image', function () {
+    gulp.src('resources/**/*.{png,jpg,jpeg}')
+        .pipe(imageResize({ width : 400 }))
+        .pipe(rename(function (path) { path.basename += ".preview"; }))
+        .pipe(gulp.dest('resources'));
+});
+
 
 var templates;
 
