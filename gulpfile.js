@@ -62,6 +62,22 @@ gulp.task('minify-image', function () {
         .pipe(gulp.dest('resources'));
 });
 
+gulp.task('generate-gallery', function () {
+    var directory = 'u-vody/zahajeni-dyje-2018/';
+    exec('cd resources/' + directory + ' && ls -1 *.* | sed -e s/^/\\<span\\>/ -e s:$:\\</span\\>:\n').stdout.on('data', function(data) {
+        var files = lsToList(data);
+        console.log('<div class="gallery-definition" data-directory="' + directory + '">');
+        for (var i in files) {
+            var file = files[i];
+            if (/\.preview\./.test(file)) {
+                console.log('    ' + file);
+            }
+        }
+        console.log('</div>');
+        return;
+    });
+
+});
 
 var templates;
 
@@ -78,7 +94,7 @@ gulp.task('html', function() {
         'contact': { source: 'templates/contact.html', navlink: 'contact', target: 'kontakt.html' }
     };
 
-    exec('cd templates/ && ls -1 */*').stdout.on('data', function(data) {
+    exec('cd templates/ && ls -1 */*.*').stdout.on('data', function(data) {
         templates = lsToMap(data);
         ['news', 'older-news', 'archive', 'operational-information', 'children', 'representation', 'actions', 'by-the-water', 'contact']
             .forEach(function (navlink) {
@@ -165,6 +181,10 @@ function lsToMap(data) {
         });
     }
     return map;
+}
+
+function lsToList(data) {
+    return data.trim().split('\n');
 }
 
 // Copy vendor files from /node_modules into /vendor

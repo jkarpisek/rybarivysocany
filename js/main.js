@@ -11,12 +11,39 @@ var Gallery = function() {
         jModal.find('#gallery-right').click(moveImageToRight);
         $('body').keydown(keydownEvent);
 
+
+        var galleryGroupTemplate = $('div.gallery-group.hidden');
+        $('div.gallery-definition').each(function () {
+            generateGalleryGroup($(this), galleryGroupTemplate);
+        });
         $('div.gallery-group-show-hide-button').find('button').click(showHideGalleryGroup);
-        $('div.gallery-group').each(initGalleryGroup);
+        $('div.gallery-group:not(:last)').each(initGalleryGroup);
 
         $('img.gallery-image').click(function() {
             clickOnImage($(this));
         });
+    }
+
+    function generateGalleryGroup(jThis, galleryGroupTemplate) {
+        var galleryGroup = galleryGroupTemplate.clone();
+        jThis.after(galleryGroup);
+        var galleryRowTemplate = galleryGroup.find('.row:not(.gallery-group-show-hide-button)').clone();
+        galleryGroup.find('.row:not(.gallery-group-show-hide-button)').remove();
+        var galleryRow;
+        var imageRowIndex = 0;
+        var directory = jThis.data('directory');
+        jThis.find('span').each(function() {
+            if (imageRowIndex === 0) {
+                galleryRow = galleryRowTemplate.clone();
+                galleryGroup.find('.row.gallery-group-show-hide-button').before(galleryRow);
+            }
+            var imageName = $(this).text();
+            galleryRow.find('img.gallery-image:eq(' + imageRowIndex + ')').attr('data-src', directory + imageName);
+            imageRowIndex = (++imageRowIndex) % 3;
+        });
+        if (imageRowIndex !== 0) {
+            galleryRow.find('img.gallery-image[data-src=""]').parents('p:first').remove();
+        }
     }
 
     function showHideGalleryGroup() {
@@ -29,8 +56,7 @@ var Gallery = function() {
 
     function initGalleryGroup() {
         var jThis = $(this);
-        jThis.find('div.row').addClass('hidden');
-        $('div.gallery-group-show-hide-button.hidden:last').clone(true).removeClass('hidden').appendTo(jThis);
+        jThis.find('div.row').toggleClass('hidden');
         jThis.removeClass('hidden');
 
     }

@@ -5,6 +5,18 @@
   }
 }
 
+.gallery-definition {
+  display: none;
+}
+
+.gallery-group {
+  .image-left img {
+    max-height: 300px;
+    max-width: 100%;
+    width: initial;
+  }
+}
+
 #gallery-modal {
   /* The Modal (background) */
   display: none;
