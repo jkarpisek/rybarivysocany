@@ -21,7 +21,7 @@ gulp.task('clean', function() {
 gulp.task('sass', function() {
   return gulp.src('scss/main.scss')
     .pipe(sass())
-    .pipe(gulp.dest('generated/css'))
+    .pipe(gulp.dest('css'))
     .pipe(browserSync.reload({
       stream: true
     }));
@@ -29,7 +29,7 @@ gulp.task('sass', function() {
 
 // Minify compiled CSS
 gulp.task('minify-css', ['sass'], function() {
-  return gulp.src('generated/css/main.css')
+  return gulp.src('css/main.css')
     .pipe(cleanCSS({
       compatibility: 'ie8'
     }))
