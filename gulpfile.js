@@ -28,7 +28,7 @@ gulp.task('sass', function() {
 });
 
 // Minify compiled CSS
-gulp.task('minify-css', ['sass'], function() {
+gulp.task('minify-css', gulp.series('sass', function() {
   return gulp.src('css/main.css')
     .pipe(cleanCSS({
       compatibility: 'ie8'
@@ -40,7 +40,7 @@ gulp.task('minify-css', ['sass'], function() {
     .pipe(browserSync.reload({
       stream: true
     }));
-});
+}));
 
 // Minify custom JS
 gulp.task('minify-js', function() {
@@ -81,7 +81,7 @@ gulp.task('generate-gallery', function () {
 
 var templates;
 
-gulp.task('html', function() {
+gulp.task('html', function(done) {
     var info = {
         'news': { source: 'templates/news.html', navlink: 'news', target: 'index.html', replacePipe: newsReplacePipe },
         'older-news': { source: 'templates/older-news.html', navlink: 'older-news', target: 'starsi-novinky.html', replacePipe: olderNewsReplacePipe },
@@ -113,6 +113,7 @@ gulp.task('html', function() {
     });
 
     browserSync.reload({ stream: true });
+    done();
 });
 
 function commonReplaceAndInclude(pipe, isIndex) {
@@ -189,7 +190,7 @@ function lsToList(data) {
 
 // Copy vendor files from /node_modules into /vendor
 // NOTE: requires `npm install` before running!
-gulp.task('copy', function() {
+gulp.task('copy', function(done) {
   gulp.src([
       'node_modules/bootstrap/dist/**/*',
       '!**/npm.js',
@@ -213,10 +214,11 @@ gulp.task('copy', function() {
       '!node_modules/font-awesome/*.json'
     ])
     .pipe(gulp.dest('generated/vendor/font-awesome'));
+  done();
 });
 
 // Default task
-gulp.task('default', ['sass', 'minify-css', 'minify-js', 'copy', 'html']);
+gulp.task('default', gulp.series(gulp.parallel('sass', 'minify-css', 'minify-js'), 'copy', 'html'));
 
 // Configure the browserSync task
 gulp.task('browserSync', function() {
@@ -226,11 +228,11 @@ gulp.task('browserSync', function() {
 });
 
 // Dev task with browserSync
-gulp.task('dev', ['browserSync', 'sass', 'minify-css', 'minify-js', 'copy', 'html'], function() {
+gulp.task('dev', gulp.series(gulp.parallel('sass', 'minify-css', 'minify-js'), 'copy', 'html', 'browserSync', function() {
   gulp.watch('scss/*.scss', ['sass']);
   gulp.watch('js/*.js', ['minify-js']);
   gulp.watch('templates/**/*.html', ['html']);
 
   gulp.watch('resources/**/*.*', browserSync.reload);
   gulp.watch('generated/**/*.*', browserSync.reload);
-});
+}));
