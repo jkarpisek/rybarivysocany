@@ -53,9 +53,9 @@
   padding-top: 5px;
   padding-bottom: 5px;
   @if $side == right {
-    @include float-right;
+    float: right !important;
   } @else {
-    @include float-left;
+    float: left !important;
   }
   @include floated-image-width($side, 33%);
   &.width-25 {
